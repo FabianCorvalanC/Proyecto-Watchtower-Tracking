@@ -1,6 +1,6 @@
 # Se presenta el proyecto "Watchtower" , realizado por Lukas Vasquez, Sebastian Oñate y Fabian Corvalan
 # El proyecta busca crear un sistema de control en las calles de Duckietown, para lo cual, 
-# mediante una camara de vijilancia logra contar cuantos autos pasan por un area determinada. 
+# mediante una camara de vigilancia logra contar cuantos autos pasan por un area determinada. 
 
 import sys
 import argparse
@@ -89,6 +89,9 @@ if __name__ == '__main__':
                 x, y, w, h = cv2.boundingRect(cnt)
                 # encacillamos el auto
                 cv2.rectangle(obs, (x,y), (x+w,y+h), (0,0,255), 2)
+                cv2.putText(obs, 'Duckiebot', (x,y), cv2.FONT_HERSHEY_SIMPLEX, 
+                   0.5, (255, 255, 255), 1, cv2.LINE_AA)
+               
 
                 # aumentamos el contador
                 if 278 < y+h < 282:
