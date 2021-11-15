@@ -1,4 +1,6 @@
-## este es el avance
+# Se presenta el proyecto "Watchtower" , realizado por Lukas Vasquez, Sebastian Oñate y Fabian Corvalan
+# El proyecta busca crear un sistema de control en las calles de Duckietown, para lo cual, 
+# mediante una camara de vijilancia logra contar cuantos autos pasan por un area determinada. 
 
 import sys
 import argparse
@@ -42,6 +44,10 @@ if __name__ == '__main__':
 
 ### se  declara MOG2  en una variable background substraction ######################
     background_substractor=cv2.createBackgroundSubtractorMOG2()
+    
+    
+    # fijamos un contador de autos que sera utilizado mas adelante
+    contador_auto = 0
 
 
     while True:
@@ -64,8 +70,8 @@ if __name__ == '__main__':
             # En ese caso se reinicia el simulador
             env.reset()
 
-        # especificamos area a analizar 
-        area_pts = np.array([(165, 205), (165,300), (500,300), (500,205)])
+        # especificamos area a analizar que corresponde a toda el area de la imagen, que corresponde a toda la area de la imagen
+        area_pts = np.array([(0, 0), (0,500), (700,500), (700,0)])
 
         # creamos una imagen auxiliar, donde determinamos el area en la que actuará el detector
         imagen_aux = np.zeros(shape=(obs.shape[:2]), dtype=np.uint8) 
@@ -74,9 +80,6 @@ if __name__ == '__main__':
 
         # aplicamos la sustraccion de fondo
         mask = background_substractor.apply(imagen_area)
-
-        # fijamos un contador de autos
-        contador_auto = 0
 
         # encontramos los contornos presentes de mask, para luego basándonos en su área poder determinar si existe movimiento (autos)
         cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
@@ -88,15 +91,13 @@ if __name__ == '__main__':
                 cv2.rectangle(obs, (x,y), (x+w,y+h), (0,0,255), 2)
 
                 # aumentamos el contador
-                if 275 < y+h < 285:
-                    contador_auto =+ 1
+                if 278 < y+h < 282:
+                    contador_auto += 1
                     cv2.line(obs, (165, 280), (500, 280), (255,0,0),3)
                 
 
         # visualizamos los contenidos
 
-        # muestra el area usada
-        #cv2.drawContours(obs, [area_pts], -1, (255,0,255),2)
         # muestra la linea del filtro
         cv2.line(obs, (165, 280), (500, 280), (0,255,0), 2)
         # muestra un recuadro para el contador
@@ -104,10 +105,8 @@ if __name__ == '__main__':
         # muestra el contador
         cv2.putText(obs, str(contador_auto), (520,295),
             cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,255,0), 2)
-
-        #cv2.imshow('imagen area', imagen_area)
-        #cv2.imshow('mask',mask)
-        cv2.imshow('obs',cv2.cvtColor(obs,cv2.COLOR_RGB2BGR))
+        # muestra la ventana emergente con el sistema implementado
+        cv2.imshow('Proyecto Watchtower Duckietown',cv2.cvtColor(obs,cv2.COLOR_RGB2BGR))
 
        
     #Se cierra el environment y termina el programa
