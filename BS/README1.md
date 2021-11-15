@@ -1,0 +1,2 @@
+# Proyecto-Watchtower-Tracking
+### Se implementa la solución de sustracción mediante  la captura de la imagen de fondo.La carpeta viene con un programa para extraer una imagen de fondo (background_image.py) y el mapa del cual se toma la imagen (empty_map.yaml).También contiene una imagen de ejemplo (background_image.jpg) y el programa a ejecutar con su respectivo mapa (tracking_towerBS.py y tracking_map.yaml) avanzado solo hasta la sustracción de imagen.
