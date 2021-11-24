@@ -9,6 +9,7 @@ import gym_duckietown
 from gym_duckietown.envs import DuckietownEnv
 import numpy as np
 import cv2
+import random
 ########## se leen los argumentos y se define el enviroment#############
 if __name__ == '__main__':
 
@@ -48,6 +49,7 @@ if __name__ == '__main__':
     
     # fijamos un contador de autos que sera utilizado mas adelante
     contador_auto = 0
+ 
 
 
     while True:
@@ -71,13 +73,15 @@ if __name__ == '__main__':
             env.reset()
 
         # especificamos area a analizar que corresponde a toda el area de la imagen, que corresponde a toda la area de la imagen
-        area_pts = np.array([(0, 0), (0,500), (700,500), (700,0)])
+        area_pts = np.array([(100, 125), (0,500), (700,500), (700,125)])
+        
 
+       
         # creamos una imagen auxiliar, donde determinamos el area en la que actuará el detector
         imagen_aux = np.zeros(shape=(obs.shape[:2]), dtype=np.uint8) 
         imagen_aux = cv2.drawContours(imagen_aux, [area_pts], -1, (255), -1)
         imagen_area = cv2.bitwise_and(obs, obs, mask=imagen_aux)
-
+        
         # aplicamos la sustraccion de fondo
         mask = background_substractor.apply(imagen_area)
 
@@ -87,8 +91,8 @@ if __name__ == '__main__':
         for cnt in cnts:
             if cv2.contourArea(cnt) > 1500:
                 x, y, w, h = cv2.boundingRect(cnt)
-                # encacillamos el auto
-                cv2.rectangle(obs, (x,y), (x+w,y+h), (0,0,255), 2)
+                # encasillamos el auto
+                cv2.rectangle(obs, (x,y), (x+w,y+h), (0,0,250), 2)
                 cv2.putText(obs, 'Duckiebot', (x,y), cv2.FONT_HERSHEY_SIMPLEX, 
                    0.5, (255, 255, 255), 1, cv2.LINE_AA)
                
@@ -104,7 +108,16 @@ if __name__ == '__main__':
         # muestra la linea del filtro
         cv2.line(obs, (165, 280), (500, 280), (0,255,0), 2)
         # muestra un recuadro para el contador
-        cv2.rectangle(obs, (510,255), (555,315), (255,0,255), 2)
+        cv2.rectangle(obs, (510,255), (585,315), (255,0,255), 2)
+        #
+        cv2.putText(obs,"Total:", (510,250),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
+        cv2.putText(obs,"Watchtower Tracking", (10,25),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255,255,255), 2)
+        
+        cv2.putText(obs,"Counting..", (500 , 400),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0,195,50), 2)
+        
         # muestra el contador
         cv2.putText(obs, str(contador_auto), (520,295),
             cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,255,0), 2)
