@@ -73,7 +73,8 @@ if __name__ == '__main__':
             env.reset()
 
         # especificamos area a analizar que corresponde a toda el area de la imagen, que corresponde a toda la area de la imagen
-        area_pts = np.array([(100, 125), (0,500), (700,500), (700,125)])
+        area_pts = np.array([(235, 135), (0,500), (700,500), (400,135)])
+       
         
 
        
@@ -81,6 +82,7 @@ if __name__ == '__main__':
         imagen_aux = np.zeros(shape=(obs.shape[:2]), dtype=np.uint8) 
         imagen_aux = cv2.drawContours(imagen_aux, [area_pts], -1, (255), -1)
         imagen_area = cv2.bitwise_and(obs, obs, mask=imagen_aux)
+        cv2.imshow('Proyectoatchtower Duckietown',imagen_area)
         
         # aplicamos la sustraccion de fondo
         mask = background_substractor.apply(imagen_area)
