@@ -82,8 +82,7 @@ if __name__ == '__main__':
         imagen_aux = np.zeros(shape=(obs.shape[:2]), dtype=np.uint8) 
         imagen_aux = cv2.drawContours(imagen_aux, [area_pts], -1, (255), -1)
         imagen_area = cv2.bitwise_and(obs, obs, mask=imagen_aux)
-        cv2.imshow('Proyectoatchtower Duckietown',imagen_area)
-        
+   
         # aplicamos la sustraccion de fondo
         mask = background_substractor.apply(imagen_area)
 
