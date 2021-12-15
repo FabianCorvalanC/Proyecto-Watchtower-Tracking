@@ -1,5 +1,5 @@
 # Se presenta el proyecto "Watchtower" , realizado por Lukas Vasquez, Sebastian Oñate y Fabian Corvalan
-# El proyecta busca crear un sistema de control en las calles de Duckietown, para lo cual, 
+# El proyecto busca crear un sistema de control en las calles de Duckietown, para lo cual, 
 # mediante una camara de vigilancia logra contar cuantos autos pasan por un area determinada. 
 
 import sys
@@ -10,23 +10,19 @@ from gym_duckietown.envs import DuckietownEnv
 import numpy as np
 import cv2
 import random
-########## se leen los argumentos y se define el enviroment#############
+
+
+#se lee el video de prueba
 cap=cv2.VideoCapture('circuito_duckie.mp4')
-###################################################################################
+### se  declara MOG2 (sustraccion de fondo)  en una variable background substraction ######################
 
-
-
-
-##########################################################################
-
-### se  declara MOG2  en una variable background substraction ######################
 background_substractor=cv2.createBackgroundSubtractorMOG2()
     
     
 # fijamos un contador de autos que sera utilizado mas adelante
 
 contador_auto = 0 #cuenta autos
-contar=True # se activa para contar autos
+contar=True # switch que se activa para contar autos
 step=0 # se deja de contar autos hasta que llegue a 50
 
  
@@ -41,12 +37,10 @@ while True:
         break
         
 
-        # especificamos area a analizar que corresponde a toda el area de la imagen, que corresponde a toda la area de la imagen
+        # especificamos area a analizar que corresponde a toda el area de la imagen
     area_pts = np.array([(235, 100), (0,500), (700,500), (400,100)])
     
-        
-
-       
+         
     # creamos una imagen auxiliar, donde determinamos el area en la que actuará el detector
     imagen_aux = np.zeros(shape=(frame.shape[:2]), dtype=np.uint8) 
     imagen_aux = cv2.drawContours(imagen_aux, [area_pts], -1, (255), -1)
@@ -55,7 +49,7 @@ while True:
 
 
    
-    # aplicamos la sustraccion de fondo
+    # aplicamos la sustraccion de fondo y operaciones en imagen
     mask = background_substractor.apply(imagen_area)
  
     kernel1=np.ones((10,10),np.uint8)

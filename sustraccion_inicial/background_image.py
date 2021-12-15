@@ -1,3 +1,6 @@
+### codigo para sacar la imagen del fondo de simulador.Se apreta "g" y se guarda la imagen, la idea es que fuera dinámico y en una situacion real poder seleccionar el fondo. 
+
+
 import sys
 import argparse
 import gym
@@ -47,9 +50,12 @@ if __name__ == '__main__':
         if key == 27:
             
             break
+        
+        ###se extrae imagen de fondo###
         if key == ord('g'):
             cv2.imwrite('background'+str(step)+'.jpg',obs)
 
+        
         action = np.array([0.0, 0.0])
         # Se ejecuta la acción definida anteriormente y se retorna la observación (obs),
         # la evaluación (reward), etc
@@ -64,7 +70,6 @@ if __name__ == '__main__':
         
         #cv2.imshow('background',BG)
         cv2.imshow('obs',cv2.cvtColor(obs,cv2.COLOR_RGB2BGR))
-        print(obs)
         step+=1
        
 
